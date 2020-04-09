@@ -38,7 +38,7 @@ class TwitchChatBot:
 
     References
     ----------
-    https://dev.twitch.tv/docs/irc/guide
+    [Twitch IRC Guide](https://dev.twitch.tv/docs/irc/guide)
     """
 
     # Class constants
@@ -199,11 +199,8 @@ class TwitchChatBot:
         keys = ("channel", "username", "message")
         channel, username, message = [server_message_details[k] for k in keys]
 
-        print(server_message_details)
-
         if self.username in message.lower():
             client_message = f"PRIVMSG #{channel} :@{username}, welcome to my stream.\r\n"
-            print(client_message)
             self.send_client_message(client_message)
 
     # --------------------------------------------------------------------------
@@ -238,18 +235,13 @@ class TwitchChatBot:
         """
         # Creates a dictionary containing parse information about the private
         # message.
-        result = {
-            "channel": "",
-            "username": "",
-            "message": ""
-        }
 
         _, server_message_details, message = server_message.split(":")
         username, details = server_message_details.split("!")
         _, channel = details.split("#")
 
-        result["channel"] = channel
-        result["username"] = username
-        result["message"] = message
-
-        return result
+        return {
+            "channel": channel,
+            "username": username,
+            "message": message
+        }
